@@ -11,8 +11,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(product,index) in products" :key="product.id">
-                    <td>{{ index+1 }}</td>
+                <tr v-for="(product, index) in products" :key="product.id">
+                    <td>{{ index + 1 }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.price }}</td>
@@ -63,9 +63,11 @@ export default {
                     confirmButtonText: 'Yes, Delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        (async () => {
+                            await axios.delete(`/api/products/${id}`);
+                            this.products = this.products.filter(product => product.id !== id);
+                        })()
 
-                         axios.delete(`/api/products/${id}`);
-                this.products = this.products.filter(product => product.id !== id);
                         Swal.fire(
                             'បានលុប!',
                             'ទិន្នន័យត្រូវបានលុប.',
@@ -75,7 +77,7 @@ export default {
                 })
 
 
-                
+
             } catch (error) {
                 console.error(error);
             }
